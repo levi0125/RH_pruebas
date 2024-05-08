@@ -48,7 +48,7 @@ def area_fedita(id):
         
         conexion=Admin()
         
-        conexion.execute('update area set descripcion=%s where idArea=%s'%(desc,id))
+        conexion.execute('update area set descripcion="%s" where idArea=%s'%(desc,id))
         
     return redirect(url_for('area'))
 
@@ -225,7 +225,7 @@ def puesto_fagrega():
     conexion.execute(
     """insert into puesto (codPuesto,idArea,nomPuesto,puestoJefeSup,jornada,remunMensual,prestaciones,descripcionGeneral,
     funciones,edad,sexo,idEstadoCivil,idEscolaridad,idGradoAvance,idCarrera,experiencia,conocimientos,manejoEquipo,
-    reqFisicos,reqPsicologicos,responsabilidades,condicionesTrabajo) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""%
+    reqFisicos,reqPsicologicos,responsabilidades,condicionesTrabajo) values (%s,'%s',%s,'%s','%s','%s',%s,'%s','%s','%s','%s','%s',%s,%s,%s,%s,'%s','%s','%s','%s','%s','%s')"""%
     (codP, idAr, nomP, pueJ, jorn, remu, pres, desc, func, eda, sex, idEC, idEs, idGA, idCa, expe, cono, manE, reqF,
      reqP, resp, conT))
     
@@ -243,7 +243,7 @@ def puesto_fagrega():
     for i in range(1, ni):
         idio = 'i' + str(i)
         if idio in request.form:
-            conexion.execute('insert into puesto_has_idioma(idPuesto,idIdioma) values (%s,%s)'%(idP, i))
+            conexion.execute('insert into puesto_has_idioma(idPuesto,idIdioma) values (%s,"%s")'%(idP, i))
             
 
     conexion.execute('select count(*) from habilidad ')
@@ -353,11 +353,11 @@ def puesto_fedita(idP):
     conexion=Admin()
 
 
-    conexion.execute("""update puesto set codPuesto = %s, idArea = %s, nomPuesto = %s, puestoJefeSup = %s, jornada = %s,
-                  remunMensual = %s, prestaciones = %s, descripcionGeneral = %s, funciones = %s, edad = %s, sexo = %s,
-                  idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s, experiencia = %s,
-                  conocimientos = %s, manejoEquipo = %s, reqFisicos = %s, reqPsicologicos = %s, responsabilidades = %s,
-                  condicionesTrabajo = %s where idPuesto = %s"""%(codP, idAr, nomP, pueJ, jorn, remu, pres, desc, func, eda,
+    conexion.execute("""update puesto set codPuesto = '%s', idArea = %s, nomPuesto = '%s', puestoJefeSup = '%s', jornada = '%s',
+                  remunMensual = %s, prestaciones = '%s', descripcionGeneral = '%s', funciones = '%s', edad = '%s', sexo = '%s',
+                  idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s, experiencia = '%s',
+                  conocimientos = '%s', manejoEquipo = '%s', reqFisicos = '%s', reqPsicologicos = '%s', responsabilidades = '%s',
+                  condicionesTrabajo = '%s' where idPuesto = %s"""%(codP, idAr, nomP, pueJ, jorn, remu, pres, desc, func, eda,
                    sex, idEC, idEs, idGA, idCa, expe, cono, manE, reqF, reqP, resp, conT, idP))
     
 
@@ -374,7 +374,7 @@ def puesto_fedita(idP):
     for i in range(1, ni):
         idio = 'i' + str(i)
         if idio in request.form:
-            conexion.execute('insert into puesto_has_idioma(idPuesto,idIdioma) values (%s,%s)'%(idP, i))
+            conexion.execute('insert into puesto_has_idioma(idPuesto,idIdioma) values (%s,"%s")'%(idP, i))
             
 
     conexion.execute('select count(*) from habilidad ')
@@ -385,7 +385,7 @@ def puesto_fedita(idP):
     for i in range(1, nh):
         habi = 'h' + str(i)
         if habi in request.form:
-            conexion.execute('insert into puesto_has_habilidad(idPuesto,idHabilidad) values (%s,%s)'%(idP, i))
+            conexion.execute('insert into puesto_has_habilidad(idPuesto,idHabilidad) values (%s,"%s")'%(idP, i))
             
     return redirect(url_for('puesto'))
 
