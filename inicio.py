@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import pymysql
+from sql_admin import Admin
 
 app = Flask(__name__)
 
@@ -17,21 +18,30 @@ def home():
 
 @app.route('/catalogos:<string:tabla>')
 def area2(tabla):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
-    cursor = conn.cursor()
+    # conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    # cursor = conn.cursor()
+
+    conexion=Admin()
 
     tablas=["area","carrera","escolaridad","estado_civil","grado_avance","habilidad","idioma"]
     ids=["idArea","idCarrera","idEscolaridad","idEstadoCivil","idGradoAvance","idHabilidad","idIdioma"]
-    titulos=[]
+    titulos=["Area","Carrera","Escolaridad","Estado Civil","Grado de Avance","Habilidad","Idioma"]
+    
     try:
         c=tablas.index(tabla)
     except Exception:
         print("ERROR, NO ESTÁ")
         return redirect("/")
     
-    cursor.execute(f"select * from {tabla} order by {ids[c]}")
-    datos = cursor.fetchall()
-    return render_template("area.html", comentarios = datos)
+    conexion.execute(f"select * from {tabla} order by {ids[c]}")
+    datos = conexion.getResult()
+
+    plural,male=conexion.tablaPlural(titulos[c])
+    plural=plural.upper()
+
+    print("\n\n\n",datos)
+    print("\n\n\n",plural)
+    return render_template("area.html", comentarios = datos,titulo=titulos[c],tabla_plural=plural,male=male)
 
 @app.route('/area_editar/<string:id>')
 def area_editar(id):
