@@ -1,5 +1,14 @@
 
 class Editor:
+    def getIds(self):
+        return ["idArea","idCarrera","idEscolaridad","idEstadoCivil","idGradoAvance","idHabilidad","idIdioma"]
+    
+    def getTables(self):
+        return ["area","carrera","escolaridad","estado_civil","grado_avance","habilidad","idioma"]
+    
+    def getTableTitles(self):
+        return ["Area","Carrera","Escolaridad","Estado Civil","Grado de Avance","Habilidad","Idioma"]
+    
     def isVowel(self,letra):
         vocales=["a","e","i","o","u"]
         try:
@@ -31,8 +40,8 @@ class Editor:
             return False
         
     def tablaToTitle(self,tabla):
-        tablas=["area","carrera","escolaridad","estado_civil","grado_avance","habilidad","idioma"]
-        titulos=["Area","Carrera","Escolaridad","Estado Civil","Grado de Avance","Habilidad","Idioma"]
+        tablas=self.getTables()
+        titulos=self.getTableTitles()
 
         try:
             c=tablas.index(tabla)
@@ -41,8 +50,8 @@ class Editor:
             return None
         
     def titleToTabla(self,titulo):
-        tablas=["area","carrera","escolaridad","estado_civil","grado_avance","habilidad","idioma"]
-        titulos=["Area","Carrera","Escolaridad","Estado Civil","Grado de Avance","Habilidad","Idioma"]
+        tablas=self.getTables()
+        titulos=self.getTableTitles()
 
         try:
             c=titulos.index(titulo)
@@ -51,12 +60,11 @@ class Editor:
             return None
     
     def tablaId(self,nombre_tabla):
-        tablas=["area","carrera","escolaridad","estado_civil","grado_avance","habilidad","idioma"]
-        ids=["idArea","idCarrera","idEscolaridad","idEstadoCivil","idGradoAvance","idHabilidad","idIdioma"]
+        tablas=self.getTables()
+        ids=self.getIds()
 
         try:
             c=tablas.index(nombre_tabla)
             return ids[c]
         except Exception:
             return None
-        
