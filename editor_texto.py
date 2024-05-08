@@ -1,5 +1,10 @@
 
 class Editor:
+    def __init__(self):
+        self.tablas=self.getTables()
+        self.titulos=self.getTableTitles()
+        self.ids=self.getIds()
+
     def getIds(self):
         return ["idArea","idCarrera","idEscolaridad","idEstadoCivil","idGradoAvance","idHabilidad","idIdioma"]
     
@@ -40,31 +45,31 @@ class Editor:
             return False
         
     def tablaToTitle(self,tabla):
-        tablas=self.getTables()
-        titulos=self.getTableTitles()
-
         try:
-            c=tablas.index(tabla)
-            return titulos[c]
+            c=self.tablas.index(tabla)
+            return self.titulos[c]
         except Exception:
             return None
         
     def titleToTabla(self,titulo):
-        tablas=self.getTables()
-        titulos=self.getTableTitles()
-
         try:
-            c=titulos.index(titulo)
-            return tablas[c]
+            c=self.titulos.index(titulo)
+            return self.tablas[c]
         except Exception:
             return None
     
-    def tablaId(self,nombre_tabla):
-        tablas=self.getTables()
-        ids=self.getIds()
-
+    def tablaToId(self,nombre_tabla):
         try:
-            c=tablas.index(nombre_tabla)
-            return ids[c]
+            c=self.tablas.index(nombre_tabla)
+            return self.ids[c]
         except Exception:
             return None
+        
+    def existenciaTabla(self,tabla):
+        tablas=self.getTables()
+        try:
+            c=tablas.index(tabla)
+        except Exception:
+            print("ERROR, NO ESTÁ")
+            return None
+        return True

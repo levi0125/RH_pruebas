@@ -36,10 +36,21 @@ class Admin():
                 tabla2+=" "
 
         return tabla2, self.editor.isMale(tabla)
-        # if tabla=="Escolaridad" or tabla=="Estado Civil" or tabla=="Habilidad":
-        #     print("s")
-        # elif tabla=="Grado de Avance":
-        #     print(2)
-        # else:
-        #     return tabla+"s"
-# ad=Admin()
+    
+    def getArrayDatos(self):
+        return self.editor.getTables(),self.editor.getIds(),self.editor.getTableTitles()
+    
+    def getTables(self):
+        return self.editor.getTables()
+    
+    def tableToId(self,table):
+        return self.editor.tablaToId(table)
+    
+    def tableToTitle(self,table):
+        return self.editor.tablaToTitle(table)
+    
+    def titleToTable(self,title):
+        return self.editor.titleToTabla(title)
+    
+    def existeTabla(self,tabla):
+        return self.editor.existenciaTabla(tabla)

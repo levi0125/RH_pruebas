@@ -8,38 +8,38 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
+@app.route('/catalogos:<string:tabla>:<int:id_campo>')
+def editar(tabla,id_campo):
+    return render_template("area_edi.html", comentar=dato[0])
 @app.route('/catalogos:<string:tabla>')
+
 def area(tabla): 
     conexion=Admin()
 
-    tablas=["area","carrera","escolaridad","estado_civil","grado_avance","habilidad","idioma"]
-    ids=["idArea","idCarrera","idEscolaridad","idEstadoCivil","idGradoAvance","idHabilidad","idIdioma"]
-    titulos=["Area","Carrera","Escolaridad","Estado Civil","Grado de Avance","Habilidad","Idioma"]
-    
-    try:
-        c=tablas.index(tabla)
-    except Exception:
-        print("ERROR, NO ESTÁ")
+    if(conexion.existeTabla(tabla)==None):
         return redirect("/")
     
-    conexion.execute(f"select * from {tabla} order by {ids[c]}")
+    titulo=conexion.tableToTitle(tabla)
+    id=conexion.tableToId(tabla) 
+
+    conexion.execute(f"select * from {tabla} order by {id}")
     datos = conexion.getResult()
 
-    plural,male=conexion.tablaPlural(titulos[c])
+    plural,male=conexion.tablaPlural(titulo)
     plural=plural.upper()
 
     # print("\n\n\n",datos)
     # print("\n\n\n",plural)
-    return render_template("area.html", comentarios = datos,titulo=titulos[c],tabla_plural=plural,male=male)
+    return render_template("area.html", comentarios = datos,titulo=titulo,tabla_plural=plural,male=male)
 
-@app.route('/area_editar/<string:id>')
-def area_editar(id):
-    conexion=Admin()
+# @app.route('/area_editar/<string:id>')
+# def area_editar(id):
+#     conexion=Admin()
     
-    conexion.execute('select idArea, descripcion from area where idArea = %s'%(id))
-    dato  = conexion.getResult()
+#     conexion.execute('select idArea, descripcion from area where idArea = %s'%(id))
+#     dato  = conexion.getResult()
 
-    return render_template("area_edi.html", comentar=dato[0])
+#     return render_template("area_edi.html", comentar=dato[0])
 
 @app.route('/area_fedita/<string:id>',methods=['POST'])
 def area_fedita(id):
