@@ -1,0 +1,11 @@
+requisicion
+vacantes
+candidatos
+estilos
+corregir los "%s" donde debe estar como string, no como int
+
+update puesto set codPuesto = V009, idArea = 5, nomPuesto = SUPERVISOR DE TIENDA , puestoJefeSup = SUPERVISOR, jornada = LUNES A VIERNES,
+                  remunMensual = 10000, prestaciones = DE LEY, descripcionGeneral = VENTAS AL PÚBLICO, funciones = VENDER, edad = 18 A 45 AÑOS, sexo = Hombre,
+                  idEstadoCivil = 1, idEscolaridad = 3, idGradoAvance = 2, idCarrera = 2, experiencia = 2 AÑOS,
+                  conocimientos = VENTAS, manejoEquipo = DE COMPUTO, reqFisicos = AGUDEZA VISUAL, reqPsicologicos = MEMORIA A CORTO Y LARGO PLAZO, responsabilidades = INVENTARIO,
+                  condicionesTrabajo = AGRADABLES where idPuesto = 1
