@@ -64,14 +64,15 @@ def area_fedita(tabla,id_campo):
         
     return redirect(url_for('area',tabla=tabla))
 
-@app.route('/area_borrar/<string:id>')
-def area_borrar(id):
+@app.route('/catalogoBorrar:<string:titulo>:<string:id>')
+def area_borrar(titulo,id):
     
-    conexion=Admin()
+    conexion=Admin()    
+    table_name=conexion.titleToTable(titulo)
+    id_tabla=conexion.tableToId(table_name)
+    conexion.execute('delete from {0} where {1} = {2}'.format(table_name,id_tabla,id))
     
-    conexion.execute('delete from area where idArea = {0}'.format(id))
-    
-    return redirect(url_for('area'))
+    return redirect(url_for('area',tabla=table_name))
 
 # @app.route('/area_agregar')
 @app.route('/catalogosAgregar:<string:tabla_titulo>')
