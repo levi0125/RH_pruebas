@@ -10,18 +10,35 @@ def home():
 
 @app.route('/catalogos:<string:tabla>:<int:id_campo>')
 def editar(tabla,id_campo):
-    return render_template("area_edi.html", comentar=dato[0])
-@app.route('/catalogos:<string:tabla>')
+    #como 'tabla' recibe el titulo de la tabla
+    conexion=Admin()
+    table_name=conexion.titleToTable(tabla)
 
+    if(table_name==None):
+        return redirect("/")
+
+    print("\nTabName=",table_name)
+    print("\nId=",id_campo)
+
+    id_tabla=conexion.tableToId(table_name)
+    
+    conexion.execute(f"select * from {table_name}  where {id_tabla} ={id_campo}")
+    dato=conexion.getResult()
+    print("\ndato=",dato)
+
+    campos= conexion.colsToString(table_name,False)[0]
+    return render_template("area_edi.html", comentar=dato[0][1], campo=campos, tabla=table_name, id_campo=id_campo )
+
+@app.route('/catalogos:<string:tabla>')
 def area(tabla): 
     conexion=Admin()
-
     if(conexion.existeTabla(tabla)==None):
         return redirect("/")
     
     titulo=conexion.tableToTitle(tabla)
     id=conexion.tableToId(tabla) 
 
+    print(f"titulo={titulo}\nid={id}")
     conexion.execute(f"select * from {tabla} order by {id}")
     datos = conexion.getResult()
 
@@ -41,16 +58,30 @@ def area(tabla):
 
 #     return render_template("area_edi.html", comentar=dato[0])
 
-@app.route('/area_fedita/<string:id>',methods=['POST'])
-def area_fedita(id):
+@app.route('/EditaCatalogos:<string:tabla>:<int:id_campo>',methods=['POST'])
+def area_fedita(tabla,id_campo):
     if request.method == 'POST':
-        desc=request.form['descripcion']
+        valor=request.form['valor']
         
         conexion=Admin()
+        campos= conexion.colsToString(tabla,True)[0]
+        campos=campos.split(",")
+        id_tabla=campos[0]
+        otro=campos[1]
+
+        conexion.execute('update %s set %s="%s" where %s=%s'%(tabla,otro,valor,id_tabla,id_campo))
         
-        conexion.execute('update area set descripcion="%s" where idArea=%s'%(desc,id))
+    return redirect(url_for('area',tabla=tabla))
+# @app.route('/area_fedita/<string:id>',methods=['POST'])
+# def area_fedita(id):
+#     if request.method == 'POST':
+#         desc=request.form['descripcion']
         
-    return redirect(url_for('area'))
+#         conexion=Admin()
+        
+#         conexion.execute('update area set descripcion="%s" where idArea=%s'%(desc,id))
+        
+#     return redirect(url_for('area'))
 
 @app.route('/area_borrar/<string:id>')
 def area_borrar(id):

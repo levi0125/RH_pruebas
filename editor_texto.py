@@ -93,3 +93,15 @@ class Editor:
             print("ERROR, NO ESTÁ")
             return None
         return True    
+    
+    def columnsToString(self,array):
+        #vacante = (('conseVR', ''), ('fuenteCandidato', ''), ('inicioFechaPublic', ''), ('finFechaPublic', ''), ('publicada', ''), ('observaciones', ''), ('candidatoSelecc', ''), ('fechaContratacion', ''), ('idRequisicion', ''), ('idPuesto', ''))
+        nombres=""
+        tipos_dato=()
+        for columna in array:
+            nombres+=f"{columna[0]},"
+            tipos_dato
+            tipos_dato+=columna[1],
+
+        nombres=nombres[:-1]
+        return nombres,tipos_dato

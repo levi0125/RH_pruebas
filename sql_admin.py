@@ -23,8 +23,7 @@ class Admin():
 
     def tablaPlural(self,tabla):
         # tabla + "registradas"
-        titulos=["Area","Carrera","Escolaridad","Estado Civil","Grado de Avance","Habilidad","Idioma"]
-
+        print("__tabla=",tabla)
         palabras=tabla.split(" ")
         tabla2=""
 
@@ -54,3 +53,35 @@ class Admin():
     
     def existeTabla(self,tabla):
         return self.editor.existenciaTabla(tabla)
+
+    def getSQLCols(self,table_name,primary_key):
+        query=f"SELECT column_name,column_key FROM information_schema.columns  WHERE table_schema = '{self.cx.db}' AND table_name = '{table_name}'"
+        if(primary_key!=True):
+            query+=" and column_key !='PRI' "
+        query+="order by ordinal_position"
+        self.execute(query)
+        return self.getResult()
+    
+    def getSQLTables(self):
+        query=f"select table_name from information_schema.tables where table_schema='{self.cx.db}'"
+        self.execute(query)
+        return self.getResult()
+    
+    def getColsFrom(self,table_name,primary_key):
+        columnas=self.getSQLCols(table_name,primary_key)
+        print("\n\n")
+        print(table_name,"=",columnas)
+        return columnas
+        # tablas=self.getSQLTables()
+
+        # for tabla in tablas:
+        #     tabla=tabla[0]
+        #     columnas=self.getSQLCols(tabla)
+        #     print("\n\n")
+        #     print(tabla,"=",columnas)
+    def colsToString(self,table,primary_key):
+        
+        return self.editor.columnsToString(self.getColsFrom(table,primary_key))
+# admin=Admin()
+
+# admin.getColsFrom("puesto",False)
