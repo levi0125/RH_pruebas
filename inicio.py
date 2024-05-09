@@ -8,7 +8,7 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
-@app.route('/catalogos:<string:tabla>:<int:id_campo>')
+@app.route('/catalogosEdita:<string:tabla>:<int:id_campo>')
 def editar(tabla,id_campo):
     #como 'tabla' recibe el titulo de la tabla
     conexion=Admin()
@@ -49,15 +49,6 @@ def area(tabla):
     # print("\n\n\n",plural)
     return render_template("area.html", comentarios = datos,titulo=titulo,tabla_plural=plural,male=male)
 
-# @app.route('/area_editar/<string:id>')
-# def area_editar(id):
-#     conexion=Admin()
-    
-#     conexion.execute('select idArea, descripcion from area where idArea = %s'%(id))
-#     dato  = conexion.getResult()
-
-#     return render_template("area_edi.html", comentar=dato[0])
-
 @app.route('/EditaCatalogos:<string:tabla>:<int:id_campo>',methods=['POST'])
 def area_fedita(tabla,id_campo):
     if request.method == 'POST':
@@ -72,16 +63,6 @@ def area_fedita(tabla,id_campo):
         conexion.execute('update %s set %s="%s" where %s=%s'%(tabla,otro,valor,id_tabla,id_campo))
         
     return redirect(url_for('area',tabla=tabla))
-# @app.route('/area_fedita/<string:id>',methods=['POST'])
-# def area_fedita(id):
-#     if request.method == 'POST':
-#         desc=request.form['descripcion']
-        
-#         conexion=Admin()
-        
-#         conexion.execute('update area set descripcion="%s" where idArea=%s'%(desc,id))
-        
-#     return redirect(url_for('area'))
 
 @app.route('/area_borrar/<string:id>')
 def area_borrar(id):
@@ -92,20 +73,27 @@ def area_borrar(id):
     
     return redirect(url_for('area'))
 
-@app.route('/area_agregar')
-def area_agregar():
-    return render_template("area_agr.html")
+# @app.route('/area_agregar')
+@app.route('/catalogosAgregar:<string:tabla_titulo>')
+def area_agregar(tabla_titulo):
+    conexion=Admin()
+    nombre_tabla=conexion.titleToTable(tabla_titulo)
+    dato=conexion.colsToString(nombre_tabla,False)[0]
+    print("\n\ndato=",dato)
+    return render_template("area_agr.html",columna=dato,titulo=tabla_titulo)
 
-@app.route('/area_fagrega', methods=['POST'])
-def area_fagrega():
+# @app.route('/area_fagrega', methods=['POST'])
+@app.route('/catalogoPUSH:<string:title>', methods=['POST'])
+def area_fagrega(title):
     if request.method == 'POST':
         desc = request.form['descripcion']
         
         conexion=Admin()
+        table_name=conexion.titleToTable(title)
+        columnas=conexion.colsToString(table_name,False)[0]
+        conexion.execute('insert into %s (%s) values ("%s")'%(table_name,columnas,desc))
         
-        conexion.execute('insert into area (descripcion) values (%s)'%(desc))
-        
-    return redirect(url_for('area'))
+    return redirect(url_for('area',tabla=table_name))
 
 
 

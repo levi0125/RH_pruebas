@@ -5,7 +5,7 @@
     <tbody>
     <tr>
     <td color="FFFFFF" bgcolor="#465F5A" valign="top">
-    <right><h3><a href="/area_agregar">Agregar {{titulo}}</a></h3></right>
+    <right><h3><a href="/catalogosAgregar:{{titulo}}">Agregar {{titulo}}</a></h3></right>
     <center><h3>{{tabla_plural}} 
       {% if male==True %}
         REGISTRADOS
@@ -29,7 +29,7 @@
         </td>
 
         <td bgcolor="#2B2D83" width="8%">
-        <center><a href="/catalogos:{{titulo}}:{{i.0}}" >Editar</a></center>
+        <center><a href="/catalogosEdita:{{titulo}}:{{i.0}}" >Editar</a></center>
         <!-- <center><a href="/area_editar/{{i.0}}" >Editar</a></center> -->
         </td>
         <td bgcolor="#3C3EC5" width="8%">
