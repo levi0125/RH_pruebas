@@ -27,27 +27,33 @@ def editar(tabla,id_campo):
     print("\ndato=",dato)
 
     campos= conexion.colsToString(table_name,False)[0]
-    return render_template("area_edi.html", comentar=dato[0][1], campo=campos, tabla=table_name, id_campo=id_campo )
+    return render_template("area_edi.html", comentar=dato[0][1], campo=campos, tabla=table_name, id_campo=id_campo)
 
 @app.route('/catalogos:<string:tabla>')
 def area(tabla): 
     conexion=Admin()
+    
     if(conexion.existeTabla(tabla)==None):
         return redirect("/")
     
+    permitir_borrado=True
     titulo=conexion.tableToTitle(tabla)
     id=conexion.tableToId(tabla) 
 
-    print(f"titulo={titulo}\nid={id}")
+    #print(f"titulo={titulo}\nid={id}")
     conexion.execute(f"select * from {tabla} order by {id}")
     datos = conexion.getResult()
+    print("ddatos=",datos)
 
     plural,male=conexion.tablaPlural(titulo)
     plural=plural.upper()
 
-    # print("\n\n\n",datos)
-    # print("\n\n\n",plural)
-    return render_template("area.html", comentarios = datos,titulo=titulo,tabla_plural=plural,male=male)
+    if(tabla=="cursos"):
+        permitir_borrado=False
+    
+    # print("borrado=",permitir_borrado)
+
+    return render_template("area.html", comentarios = datos,titulo=titulo,tabla_plural=plural,male=male,borrado=permitir_borrado)
 
 @app.route('/EditaCatalogos:<string:tabla>:<int:id_campo>',methods=['POST'])
 def area_fedita(tabla,id_campo):

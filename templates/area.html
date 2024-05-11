@@ -18,7 +18,9 @@
       <tr>
         <td color="white" bgcolor="blue">Descripcion</td>
         <td color="white" bgcolor="black"></td>
-        <td color="white" bgcolor="black"></td>
+        {% if borrado!=False %}
+          <td color="white" bgcolor="black"></td>
+        {% endif %}
       </tr>
     </thead>
     <tbody>
@@ -29,11 +31,17 @@
         </td>
 
         <td bgcolor="#2B2D83" width="8%">
-        <center><a href="/catalogosEdita:{{titulo}}:{{i.0}}" >Editar</a></center>
+        {% if titulo=="Curso" %}
+          <center><a href="/Apariciones_curso:{{i.0}}" >Ver Apariciones</a></center>
+        {% else %}
+          <center><a href="/catalogosEdita:{{titulo}}:{{i.0}}" >Editar</a></center>
+        {% endif %}
         <!-- <center><a href="/area_editar/{{i.0}}" >Editar</a></center> -->
         </td>
-        <td bgcolor="#3C3EC5" width="8%">
-        <center><a href="/catalogoBorrar:{{titulo}}:{{i.0}}" >Borrar</a></center>
+        {% if borrado!=False %}
+          <td bgcolor="#3C3EC5" width="8%">
+          <center><a href="/catalogoBorrar:{{titulo}}:{{i.0}}" >Borrar</a></center>
+        {% endif %}
         </td>
         </tr>
     {% endfor %}

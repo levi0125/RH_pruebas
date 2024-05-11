@@ -4,15 +4,18 @@ class Editor:
         self.tablas=None
         self.titulos=None
         self.ids=None
-
+    
+    def getMasculinos(self):
+        return ["Idioma","Grado de Avance","Estado Civil","Curso"]
+    
     def getIds(self):
-        return ["idArea","idCarrera","idEscolaridad","idEstadoCivil","idGradoAvance","idHabilidad","idIdioma"]
+        return ["idArea","idCarrera","idEscolaridad","idEstadoCivil","idGradoAvance","idHabilidad","idIdioma","id_curso"]
     
     def getTables(self):
-        return ["area","carrera","escolaridad","estado_civil","grado_avance","habilidad","idioma"]
+        return ["area","carrera","escolaridad","estado_civil","grado_avance","habilidad","idioma","cursos"]
     
     def getTableTitles(self):
-        return ["Area","Carrera","Escolaridad","Estado Civil","Grado de Avance","Habilidad","Idioma"]
+        return ["Area","Carrera","Escolaridad","Estado Civil","Grado de Avance","Habilidad","Idioma","Curso"]
     
     def isVowel(self,letra):
         vocales=["a","e","i","o","u"]
@@ -36,7 +39,7 @@ class Editor:
     
     def isMale (self,word):
         # titulos=["Area","Carrera","Escolaridad","Estado Civil","Grado de Avance","Habilidad","Idioma"]
-        masculinos=["Idioma","Grado de Avance","Estado Civil"]
+        masculinos=self.getMasculinos()
 
         try:
             masculinos.index(word)
